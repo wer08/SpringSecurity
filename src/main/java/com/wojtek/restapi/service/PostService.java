@@ -1,25 +1,23 @@
 package com.wojtek.restapi.service;
 
+import com.wojtek.restapi.model.Comment;
 import com.wojtek.restapi.model.Post;
-import com.wojtek.restapi.model.PostDTO;
-import com.wojtek.restapi.repository.PostRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class PostService {
+public interface PostService {
+    List<Post> getPosts(int page, Sort.Direction sort);
 
-    private final PostRepository repository;
-    public List<Post> getPosts(){
-        return repository.findAllPosts(PageRequest.of(0,5));
-    }
+    Post getPostById(long id);
 
-    public Post getPostById(long id){
-        return repository.findById(id)
-                .orElseThrow();
-    }
+    List<Post> getPostsWithComments(int page, Sort.Direction sort);
+
+    Post addPost(Post post);
+
+    Post editPost(Post post);
+
+    void deletePost(Long id);
 }

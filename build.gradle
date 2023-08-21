@@ -27,13 +27,29 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'com.auth0:java-jwt:3.8.3'
 
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	implementation group: 'org.ehcache', name: 'ehcache', version: '3.10.8'
+	implementation group: 'javax.cache', name: 'cache-api', version: '1.1.1'
+	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.23.1'
+
+
+
+	testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.11'
+
+
 
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+
 
 	annotationProcessor 'org.projectlombok:lombok'
 
@@ -48,14 +64,14 @@ task generatePostsAndComments(){
 	doLast {
 		File dataSql = file("src/main/resources/data.sql")
 		dataSql.write("")
-		for (i in 0..<100) {
-			dataSql.append("insert into post(id, title, content, created) values (${i}, 'Test post ${i}', 'content ${i}' , '"
+		for (i in 1..<101) {
+			dataSql.append("insert into post(title, content, created) values ('Test post ${i}', 'content ${i}' , '"
 			+ LocalDateTime.now().minusDays(100 - i) + "');\n")
 		}
 
-		for (i in 0..<100) {
+		for (i in 1..<101) {
 			int postId = 1 + i /10
-			dataSql.append("insert into comment(id, post_id, content, created) values (${i}, '${postId}', 'comment ${i}' , '"
+			dataSql.append("insert into comment(post_id, content, created) values ('${postId}', 'comment ${i}' , '"
 					+ LocalDateTime.now().minusDays(100 - i) + "');\n")
 		}
 	}
