@@ -35,6 +35,14 @@ public class PostController {
         return service.getPostById(id);
     }
 
+    @GetMapping("/posts/user/{id}")
+    public List<PostDTO> getAllPostByUser(@PathVariable long id,
+                                 @RequestParam(required = false) Integer page,
+                                 @RequestParam(required = false, defaultValue = "ASC") Sort.Direction sort){
+        int pageNumber = (page != null && page >= 0) ? page : 0;
+        return PostDTOMapper.mapToPostDTOS(service.getPostsByUserId(pageNumber,sort,id));
+    }
+
     @PostMapping("/posts")
     public Post addPost(@RequestBody Post post){
         return service.addPost(post);

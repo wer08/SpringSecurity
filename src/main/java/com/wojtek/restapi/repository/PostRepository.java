@@ -5,6 +5,7 @@ import com.wojtek.restapi.model.PostDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -15,6 +16,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("Select p from Post p")
     List<Post> findAllPosts(Pageable page);
-    List<Post> findAllByTitle(String title);
+    @Query("SELECT p FROM Post p WHERE p.userId = :userId")
+    List<Post> findAllByUserId( Pageable page,@Param("userId") Long userId);
+
 
 }

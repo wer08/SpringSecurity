@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
+import static javax.persistence.CascadeType.REMOVE;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -31,6 +33,14 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
+    @OneToMany(cascade = REMOVE)
+    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    private List<Comment> comment;
+
+    @OneToMany(cascade = REMOVE)
+    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    private List<Post> post;
 
     @Override
     public String getUsername() {

@@ -29,6 +29,14 @@ public class PostServiceImpl implements PostService {
                 Sort.by(sort,"id")));
     }
 
+    @Override
+    public List<Post> getPostsByUserId(int page, Sort.Direction sort,Long id) {
+        return postRepository.findAllByUserId(PageRequest.of(
+                page,
+                PAGE_SIZE,
+                Sort.by(sort,"id")),id);
+    }
+
     @Cacheable(cacheNames = "SinglePost", key = "#id")
     public Post getPostById(long id){
         return postRepository.findById(id)

@@ -13,6 +13,8 @@ public interface PostService {
 
     Post getPostById(long id);
 
+    List<Post> getPostsByUserId(int page, Sort.Direction sort,Long id);
+
     List<Post> getPostsWithComments(int page, Sort.Direction sort);
 
     Post addPost(Post post);
