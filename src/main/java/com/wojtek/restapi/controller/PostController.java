@@ -1,5 +1,6 @@
 package com.wojtek.restapi.controller;
 
+import com.wojtek.restapi.dao.request.PostRequest;
 import com.wojtek.restapi.model.Post;
 import com.wojtek.restapi.model.PostDTO;
 import com.wojtek.restapi.service.implementation.PostServiceImpl;

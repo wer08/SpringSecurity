@@ -1,11 +1,8 @@
 package com.wojtek.restapi.service;
 
-import com.wojtek.restapi.model.Comment;
 import com.wojtek.restapi.model.Post;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface PostService {

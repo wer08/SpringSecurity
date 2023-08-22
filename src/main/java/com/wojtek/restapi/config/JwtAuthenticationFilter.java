@@ -1,5 +1,6 @@
 package com.wojtek.restapi.config;
 
+import com.wojtek.restapi.service.BlacklistTokenService;
 import com.wojtek.restapi.service.JwtService;
 import com.wojtek.restapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +27,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
     private final UserService userService;
+    private final BlacklistTokenService blacklistTokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+
         if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         jwt = authHeader.substring(7);
-        log.debug(jwt);
+        boolean blacklisted = blacklistTokenService.checkToken(jwt);
+        if(blacklisted){
+            filterChain.doFilter(request,response);
+            return;
+        }
         userEmail = jwtService.extractUserName(jwt);
-        log.debug(userEmail);
         if(StringUtils.hasText(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
             if(jwtService.isTokenValid(jwt,userDetails)){
-                log.debug("token valid");
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
