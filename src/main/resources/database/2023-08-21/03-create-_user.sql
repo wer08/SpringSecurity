@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset wzolkowski:1
+--changeset wzolkowski:3
 CREATE TABLE _USER (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(40) NOT NULL,
