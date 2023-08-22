@@ -90,12 +90,17 @@ class AuthenticationControllerTest {
         //then
         String token = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), JwtAuthenticationResponse.class).getToken();
 
-        MvcResult mvcResult2 = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/resource")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/resource")
                         .header("Authorization","Bearer "+token))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(200))
-                .andReturn();
-        assertEquals(mvcResult2.getResponse().getContentAsString(),"Here is your resource");
+                .andExpect(MockMvcResultMatchers.content().string("Here is your resource"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/resource"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(403));
+
+
     }
 
 }
