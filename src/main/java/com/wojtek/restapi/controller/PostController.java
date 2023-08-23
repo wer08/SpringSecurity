@@ -1,14 +1,11 @@
 package com.wojtek.restapi.controller;
 
-import com.wojtek.restapi.dao.request.PostRequest;
+import com.wojtek.restapi.mappers.PostDTOMapper;
 import com.wojtek.restapi.model.Post;
 import com.wojtek.restapi.model.PostDTO;
 import com.wojtek.restapi.service.implementation.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

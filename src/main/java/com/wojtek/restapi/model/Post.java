@@ -14,8 +14,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "_user_id")
-    private long userId;
+    private long _userId;
     private String title;
     private String content;
     private LocalDateTime created;

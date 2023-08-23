@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static org.springframework.data.domain.PageRequest.of;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -23,7 +25,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     public List<Post> getPosts(int page, Sort.Direction sort){
-        return postRepository.findAllPosts(PageRequest.of(
+        return postRepository.findAllPosts(of(
                 page,
                 PAGE_SIZE,
                 Sort.by(sort,"id")));
@@ -31,7 +33,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostsByUserId(int page, Sort.Direction sort,Long id) {
-        return postRepository.findAllByUserId(PageRequest.of(
+        return postRepository.findAllByUserId(of(
                 page,
                 PAGE_SIZE,
                 Sort.by(sort,"id")),id);
@@ -46,7 +48,7 @@ public class PostServiceImpl implements PostService {
     @Cacheable(cacheNames = "PostsWithComments")
     public List<Post> getPostsWithComments(int page, Sort.Direction sort) {
         List<Post> allPosts = postRepository
-                .findAllPosts(PageRequest.of(
+                .findAllPosts(of(
                         page,
                         PAGE_SIZE,
                         Sort.by(sort,"id")));

@@ -1,4 +1,4 @@
-package com.wojtek.restapi.controller;
+package com.wojtek.restapi.mappers;
 
 import com.wojtek.restapi.model.Post;
 import com.wojtek.restapi.model.PostDTO;

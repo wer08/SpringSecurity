@@ -24,7 +24,6 @@ public class AuthenticationController {
     }
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request){
-        log.debug(String.valueOf(request));
         return ResponseEntity.ok(authenticationService.signin(request));
     }
 }

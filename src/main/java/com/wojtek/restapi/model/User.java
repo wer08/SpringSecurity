@@ -22,7 +22,7 @@ import static javax.persistence.CascadeType.REMOVE;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -35,11 +35,11 @@ public class User implements UserDetails {
     }
 
     @OneToMany(cascade = REMOVE)
-    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    @JoinColumn(name = "_userId", updatable = false, insertable = false)
     private List<Comment> comment;
 
     @OneToMany(cascade = REMOVE)
-    @JoinColumn(name = "userId", updatable = false, insertable = false)
+    @JoinColumn(name = "_userId", updatable = false, insertable = false)
     private List<Post> post;
 
     @Override
